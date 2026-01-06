@@ -80,6 +80,10 @@ class AppStrings {
   static const addedToFavorites = 'Added to favorites';
   static const removedFromFavorites = 'Removed from favorites';
 
+  static const addedToCartMsg = 'Added to cart!';
+  static const addedToCartRedirectMsg =
+      'Added to cart! Redirecting to checkout...';
+
   // Wishlist
   static const myWishlist = 'My Wishlist';
   static const wishlistEmpty = 'Your wishlist is empty';
@@ -100,6 +104,10 @@ class AppStrings {
   static const language = 'Language';
   static const privacySettings = 'privacy settings';
   static const logout = 'Log Out';
+
+  static const curatedForYou = 'Curated For You';
+  static const discount50 = '50% off';
+  static const withCode = 'WITH CODE';
 
   // Checkout
   static const checkout = 'Checkout';

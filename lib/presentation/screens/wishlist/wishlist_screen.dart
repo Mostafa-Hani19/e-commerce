@@ -13,7 +13,7 @@ class WishlistScreen extends ConsumerWidget {
     final wishlistProducts = ref.watch(wishlistProvider);
 
     return Scaffold(
-      backgroundColor: AppTheme.whiteColor,
+      // backgroundColor: AppTheme.whiteColor,
       body: SafeArea(
         child: Column(
           children: [

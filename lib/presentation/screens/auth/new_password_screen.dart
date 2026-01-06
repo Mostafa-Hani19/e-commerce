@@ -12,11 +12,11 @@ class NewPasswordScreen extends StatelessWidget {
     const Color grayInputColor = Color(0xffF3F4F6);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
         primary:
             false, // Don't take up space equivalent to status bar if safe area handles it, but here just standard
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         automaticallyImplyLeading: false,
         // leading: BackButton(color: Colors.black), // If back is allowed

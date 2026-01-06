@@ -2,11 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class ProfileHeader extends StatelessWidget {
+import 'package:ecommerce/core/providers/theme_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class ProfileHeader extends ConsumerWidget {
   const ProfileHeader({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeProvider);
+    final isDark = themeMode == ThemeMode.dark;
+
     return Row(
       children: [
         Stack(
@@ -48,13 +54,11 @@ class ProfileHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Mohammed Ahmed',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.blackColor,
-                ),
+              Text(
+                'Mostafa Hani',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 4),
               Row(
@@ -66,7 +70,7 @@ class ProfileHeader extends StatelessWidget {
                   ),
                   const SizedBox(width: 6),
                   Text(
-                    'mohammed@gmail.com',
+                    'Mostafa@gmail.com',
                     style: TextStyle(
                       color: AppTheme.greyColor.withOpacity(0.8),
                       fontSize: 14,
@@ -75,6 +79,16 @@ class ProfileHeader extends StatelessWidget {
                 ],
               ),
             ],
+          ),
+        ),
+        // Theme Toggle Button
+        IconButton(
+          onPressed: () {
+            ref.read(themeProvider.notifier).toggleTheme();
+          },
+          icon: Icon(
+            isDark ? Icons.light_mode : Icons.dark_mode,
+            color: AppTheme.orangeColor,
           ),
         ),
       ],

@@ -19,7 +19,7 @@ class SearchScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -29,7 +29,7 @@ class SearchScreen extends StatelessWidget {
               // Search Bar
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.grey.withOpacity(0.3)),
                   boxShadow: [
@@ -42,7 +42,7 @@ class SearchScreen extends StatelessWidget {
                 ),
                 child: TextField(
                   decoration: InputDecoration(
-                    hintText: 'search',
+                    hintText: AppStrings.searchHint,
                     hintStyle: TextStyle(color: Colors.grey.withOpacity(0.5)),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(
@@ -82,9 +82,9 @@ class SearchScreen extends StatelessWidget {
                         color: const Color(0xffF3F4F6),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Text(
-                        'see all',
-                        style: TextStyle(
+                      child: Text(
+                        AppStrings.seeAll.toLowerCase(),
+                        style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 12,
                           fontWeight: FontWeight.bold,

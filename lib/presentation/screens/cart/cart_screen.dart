@@ -16,18 +16,21 @@ class CartScreen extends ConsumerWidget {
     final cartNotifier = ref.read(cartProvider.notifier);
 
     return Scaffold(
-      backgroundColor: AppTheme.whiteColor,
+      // backgroundColor: AppTheme.whiteColor,
       appBar: AppBar(
-        backgroundColor: AppTheme.whiteColor,
+        // backgroundColor: AppTheme.whiteColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.blackColor),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).iconTheme.color,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           AppStrings.shoppingCart,
           style: TextStyle(
-            color: AppTheme.blackColor,
+            color: Theme.of(context).textTheme.titleLarge?.color,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),

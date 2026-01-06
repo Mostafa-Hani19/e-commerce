@@ -9,24 +9,50 @@ class ProfileMenuList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildMenuItem(AppStrings.accountDetails, Icons.person_outline),
-        _buildMenuItem(AppStrings.loyaltyCards, Icons.card_membership),
-        _buildMenuItem(AppStrings.notifications, Icons.notifications_outlined),
-        _buildMenuItem(AppStrings.deliveryInfo, Icons.local_shipping_outlined),
-        _buildMenuItem(AppStrings.paymentInfo, Icons.payment_outlined),
-        _buildMenuItem(AppStrings.language, Icons.language),
-        _buildMenuItem(AppStrings.privacySettings, Icons.privacy_tip_outlined),
+        _buildMenuItem(
+          context,
+          AppStrings.accountDetails,
+          Icons.person_outline,
+        ),
+        _buildMenuItem(context, AppStrings.loyaltyCards, Icons.card_membership),
+        _buildMenuItem(
+          context,
+          AppStrings.notifications,
+          Icons.notifications_outlined,
+        ),
+        _buildMenuItem(
+          context,
+          AppStrings.deliveryInfo,
+          Icons.local_shipping_outlined,
+        ),
+        _buildMenuItem(context, AppStrings.paymentInfo, Icons.payment_outlined),
+        _buildMenuItem(context, AppStrings.language, Icons.language),
+        _buildMenuItem(
+          context,
+          AppStrings.privacySettings,
+          Icons.privacy_tip_outlined,
+        ),
         const SizedBox(height: 20),
-        _buildMenuItem(AppStrings.logout, Icons.logout, isLogout: true),
+        _buildMenuItem(
+          context,
+          AppStrings.logout,
+          Icons.logout,
+          isLogout: true,
+        ),
       ],
     );
   }
 
-  Widget _buildMenuItem(String title, IconData icon, {bool isLogout = false}) {
+  Widget _buildMenuItem(
+    BuildContext context,
+    String title,
+    IconData icon, {
+    bool isLogout = false,
+  }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: AppTheme.whiteColor,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: isLogout
@@ -37,7 +63,7 @@ class ProfileMenuList extends StatelessWidget {
           BoxShadow(
             color: isLogout
                 ? AppTheme.redColor.withOpacity(0.05)
-                : AppTheme.greyColor.withOpacity(0.05),
+                : Theme.of(context).shadowColor.withOpacity(0.05),
             blurRadius: 5,
             offset: const Offset(0, 2),
           ),
@@ -64,7 +90,9 @@ class ProfileMenuList extends StatelessWidget {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: isLogout ? AppTheme.redColor : AppTheme.blackColor,
+            color: isLogout
+                ? AppTheme.redColor
+                : Theme.of(context).textTheme.bodyLarge?.color,
           ),
         ),
         trailing: Icon(

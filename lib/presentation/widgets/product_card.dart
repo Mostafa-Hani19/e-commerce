@@ -32,11 +32,11 @@ class ProductCard extends ConsumerWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: AppTheme.whiteColor,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: AppTheme.blackColor.withOpacity(0.05),
+              color: Theme.of(context).shadowColor.withOpacity(0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),

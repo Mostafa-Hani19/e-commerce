@@ -1,5 +1,5 @@
 import 'package:ecommerce/core/constants/app_strings.dart';
-import 'package:ecommerce/core/theme/app_theme.dart';
+
 import 'package:ecommerce/presentation/screens/profile/widgets/profile_header.dart';
 import 'package:ecommerce/presentation/screens/profile/widgets/profile_menu_list.dart';
 import 'package:ecommerce/presentation/screens/profile/widgets/profile_stats_card.dart';
@@ -11,7 +11,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.whiteColor,
+      // backgroundColor: AppTheme.whiteColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -24,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: AppTheme.blackColor,
+                  // color: AppTheme.blackColor,
                 ),
               ),
               const SizedBox(height: 24),

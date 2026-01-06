@@ -16,10 +16,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     const Color orangeColor = Color(0xffFA6E21);
-    const Color grayInputColor = Color(0xffF3F4F6);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -51,25 +50,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 40),
 
                       // Name Field
-                      _buildTextField(AppStrings.name, grayInputColor),
+                      _buildTextField(AppStrings.name),
                       const SizedBox(height: 20),
 
                       // Email Field
-                      _buildTextField(AppStrings.email, grayInputColor),
+                      _buildTextField(AppStrings.email),
                       const SizedBox(height: 20),
 
                       // Password Field
-                      _buildTextField(
-                        AppStrings.password,
-                        grayInputColor,
-                        obscureText: true,
-                      ),
+                      _buildTextField(AppStrings.password, obscureText: true),
                       const SizedBox(height: 20),
 
                       // Confirm Password Field
                       _buildTextField(
                         AppStrings.confirmPassword,
-                        grayInputColor,
                         obscureText: true,
                       ),
                       const SizedBox(height: 20),
@@ -160,26 +154,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget _buildTextField(
-    String hint,
-    Color fillColor, {
-    bool obscureText = false,
-  }) {
+  Widget _buildTextField(String hint, {bool obscureText = false}) {
     return TextField(
       obscureText: obscureText,
-      decoration: InputDecoration(
-        hintText: hint,
-        filled: true,
-        fillColor: fillColor,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 16,
-        ),
-      ),
+      decoration: InputDecoration(hintText: hint),
     );
   }
 }

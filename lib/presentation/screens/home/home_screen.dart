@@ -1,5 +1,5 @@
 import 'package:ecommerce/core/network/api_service.dart';
-import 'package:ecommerce/core/theme/app_theme.dart';
+
 import 'package:ecommerce/models/product.dart';
 import 'package:ecommerce/presentation/screens/home/widgets/categories_section.dart';
 import 'package:ecommerce/presentation/screens/home/widgets/home_bottom_nav_bar.dart';
@@ -73,7 +73,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.whiteColor,
+      // backgroundColor: AppTheme.whiteColor,
       body: _getBody(),
       extendBody: true,
       bottomNavigationBar: HomeBottomNavBar(

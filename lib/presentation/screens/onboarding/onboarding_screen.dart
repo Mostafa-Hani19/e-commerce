@@ -61,7 +61,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     final double imageHeight = size.height * isLandscape;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       body: LayoutBuilder(
         builder: (context, constraints) {
           return Column(
@@ -137,7 +137,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.5),
+        color: Theme.of(context).cardColor.withOpacity(0.5),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.white.withOpacity(0.2)),
       ),

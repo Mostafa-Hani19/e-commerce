@@ -33,7 +33,7 @@ class AddressCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Mohammed Ahmed',
+                  'Mostafa Hani',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

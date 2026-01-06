@@ -1,5 +1,5 @@
 import 'package:ecommerce/core/constants/app_strings.dart';
-import 'package:ecommerce/core/theme/app_theme.dart';
+
 import 'package:ecommerce/models/product.dart';
 import 'package:ecommerce/presentation/screens/product_detail/widgets/add_to_cart_bar.dart';
 import 'package:ecommerce/presentation/screens/product_detail/widgets/color_size_selector.dart';
@@ -24,16 +24,16 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.whiteColor,
+      // backgroundColor: AppTheme.whiteColor,
       appBar: AppBar(
         title: const Text(AppStrings.detailProduct),
         centerTitle: true,
-        backgroundColor: AppTheme.whiteColor,
+        // backgroundColor: AppTheme.whiteColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios,
-            color: AppTheme.blackColor,
+            color: Theme.of(context).iconTheme.color,
             size: 20,
           ),
           onPressed: () => Navigator.pop(context),

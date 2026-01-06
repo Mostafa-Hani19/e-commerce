@@ -22,10 +22,10 @@ class AddToCartBar extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: AppTheme.whiteColor,
+        color: Theme.of(context).cardColor,
         boxShadow: [
           BoxShadow(
-            color: AppTheme.blackColor.withOpacity(0.05),
+            color: Theme.of(context).shadowColor.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, -5),
           ),
@@ -46,7 +46,7 @@ class AddToCartBar extends ConsumerWidget {
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Added to cart!'),
+                    content: Text(AppStrings.addedToCartMsg),
                     duration: Duration(milliseconds: 800),
                     backgroundColor: AppTheme.orangeColor,
                   ),
@@ -84,7 +84,7 @@ class AddToCartBar extends ConsumerWidget {
                 // Navigate to checkout or cart
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Added to cart! Redirecting to checkout...'),
+                    content: Text(AppStrings.addedToCartRedirectMsg),
                     duration: Duration(milliseconds: 1000),
                     backgroundColor: AppTheme.orangeColor,
                   ),

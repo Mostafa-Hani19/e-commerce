@@ -22,7 +22,7 @@ class PromoBanner extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  '50% off',
+                  AppStrings.discount50,
                   style: TextStyle(
                     color: AppTheme.whiteColor,
                     fontSize: 24,
@@ -30,7 +30,7 @@ class PromoBanner extends StatelessWidget {
                   ),
                 ),
                 const Text(
-                  'WITH CODE',
+                  AppStrings.withCode,
                   style: TextStyle(color: AppTheme.whiteColor, fontSize: 16),
                 ),
                 const SizedBox(height: 12),

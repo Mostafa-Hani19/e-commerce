@@ -1,3 +1,4 @@
+import 'package:ecommerce/core/constants/app_strings.dart';
 import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:ecommerce/models/product.dart';
 import 'package:ecommerce/presentation/widgets/product_card.dart';
@@ -13,16 +14,19 @@ class ProductsSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Curated For You',
+                AppStrings.curatedForYou,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              Text('See All', style: TextStyle(color: AppTheme.orangeColor)),
+              Text(
+                AppStrings.seeAll,
+                style: TextStyle(color: AppTheme.orangeColor),
+              ),
             ],
           ),
         ),

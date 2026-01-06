@@ -13,10 +13,9 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Basic constants for styling
     const Color orangeColor = Color(0xffFA6E21);
-    const Color grayInputColor = Color(0xffF3F4F6); // Light gray for inputs
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white, // Removed to use Theme defaults
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -50,18 +49,8 @@ class LoginScreen extends StatelessWidget {
 
                       // Email Field
                       TextField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: AppStrings.email,
-                          filled: true,
-                          fillColor: grayInputColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 16,
-                          ),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -69,18 +58,8 @@ class LoginScreen extends StatelessWidget {
                       // Password Field
                       TextField(
                         obscureText: true,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: AppStrings.password,
-                          filled: true,
-                          fillColor: grayInputColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 16,
-                          ),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -159,11 +138,11 @@ class LoginScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _buildSocialButton(AppImages.google),
+                          _buildSocialButton(context, AppImages.google),
                           const SizedBox(width: 20),
-                          _buildSocialButton(AppImages.facebook),
+                          _buildSocialButton(context, AppImages.facebook),
                           const SizedBox(width: 20),
-                          _buildSocialButton(AppImages.apple),
+                          _buildSocialButton(context, AppImages.apple),
                         ],
                       ),
                       const SizedBox(height: 30),
@@ -208,12 +187,12 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialButton(String assetPath) {
+  Widget _buildSocialButton(BuildContext context, String assetPath) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         border: Border.all(color: Colors.grey.withOpacity(0.2)),
         boxShadow: [
           BoxShadow(
