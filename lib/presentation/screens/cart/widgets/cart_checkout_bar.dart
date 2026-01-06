@@ -11,13 +11,17 @@ class CartCheckoutBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppTheme.whiteColor,
+        color: Theme.of(context).cardColor,
         boxShadow: [
           BoxShadow(
-            color: AppTheme.blackColor.withOpacity(0.05),
+            color: isDark
+                ? Colors.black.withOpacity(0.3)
+                : AppTheme.blackColor.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, -5),
           ),

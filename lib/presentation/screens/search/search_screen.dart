@@ -8,6 +8,8 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     final List<String> recentSearches = [
       'sunglasses',
       'formal wear',
@@ -19,7 +21,6 @@ class SearchScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      // backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -34,7 +35,9 @@ class SearchScreen extends StatelessWidget {
                   border: Border.all(color: Colors.grey.withOpacity(0.3)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: isDark
+                          ? Colors.black.withOpacity(0.3)
+                          : Colors.black.withOpacity(0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -79,7 +82,9 @@ class SearchScreen extends StatelessWidget {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xffF3F4F6),
+                        color: isDark
+                            ? const Color(0xff2A2A2A)
+                            : const Color(0xffF3F4F6),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
@@ -108,9 +113,11 @@ class SearchScreen extends StatelessWidget {
                         children: [
                           Text(
                             recentSearches[index],
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 14,
-                              color: Colors.black87,
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodyLarge?.color,
                             ),
                           ),
                           Icon(

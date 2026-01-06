@@ -7,6 +7,8 @@ class CameraSearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       // backgroundColor: Colors.white,
       appBar: AppBar(
@@ -47,7 +49,9 @@ class CameraSearchScreen extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color(0xffF3F4F6),
+                  color: isDark
+                      ? const Color(0xff2A2A2A)
+                      : const Color(0xffF3F4F6),
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(color: Colors.grey.withOpacity(0.2)),
                 ),
@@ -55,7 +59,9 @@ class CameraSearchScreen extends StatelessWidget {
                   child: Icon(
                     Icons.add,
                     size: 80,
-                    color: Colors.white.withOpacity(0.8),
+                    color: isDark
+                        ? Colors.white38
+                        : Colors.white.withOpacity(0.8),
                   ),
                 ),
               ),

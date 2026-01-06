@@ -1,3 +1,4 @@
+import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:ecommerce/presentation/screens/auth/login_screen.dart';
 import 'package:ecommerce/presentation/screens/onboarding/item.dart';
 import 'package:flutter/cupertino.dart';
@@ -137,17 +138,19 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor.withOpacity(0.5),
+        color: Theme.of(
+          context,
+        ).cardColor.withOpacity(0.8), // increased opacity for readability
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.white.withOpacity(0.2)),
+        border: Border.all(color: Colors.grey.withOpacity(0.2)),
       ),
       child: Text(
         title.toUpperCase(),
         textAlign: TextAlign.center,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.w900,
-          color: Colors.black,
+          color: Theme.of(context).textTheme.bodyLarge?.color,
           letterSpacing: 1.5,
         ),
       ),
@@ -165,7 +168,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
         dotHeight: 8.0,
         expansionFactor: 4,
         dotColor: Colors.grey,
-        activeDotColor: Color(0xffFA6E21),
+        activeDotColor: AppTheme.orangeColor,
       ),
       onDotClicked: (index) {
         _pageController.animateToPage(
@@ -205,7 +208,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
               child: const Text(
                 AppStrings.skip,
                 style: TextStyle(
-                  color: Color(0xffFA6E21),
+                  color: AppTheme.orangeColor,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -236,7 +239,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   ButtonStyle _filledButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: const Color(0xffFA6E21),
+      backgroundColor: AppTheme.orangeColor,
       padding: const EdgeInsets.symmetric(vertical: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       elevation: 0,
@@ -245,7 +248,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   ButtonStyle _outlinedButtonStyle() {
     return OutlinedButton.styleFrom(
-      side: const BorderSide(color: Color(0xffFA6E21), width: 2),
+      side: const BorderSide(color: AppTheme.orangeColor, width: 2),
       padding: const EdgeInsets.symmetric(vertical: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     );

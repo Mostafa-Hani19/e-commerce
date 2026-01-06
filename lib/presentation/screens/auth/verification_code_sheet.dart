@@ -1,3 +1,4 @@
+import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:ecommerce/presentation/screens/auth/new_password_screen.dart';
 import 'package:ecommerce/core/constants/app_strings.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,13 +9,11 @@ class VerificationCodeSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color orangeColor = Color(0xffFA6E21);
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
         ),
@@ -40,7 +39,7 @@ class VerificationCodeSheet extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: orangeColor,
+              color: AppTheme.orangeColor,
             ),
           ),
           const SizedBox(height: 10),
@@ -68,7 +67,7 @@ class VerificationCodeSheet extends StatelessWidget {
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: orangeColor,
+              backgroundColor: AppTheme.orangeColor,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -109,30 +108,42 @@ class VerificationCodeSheet extends StatelessWidget {
   }
 
   Widget _buildCodeBox(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       width: 60,
       height: 60,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? const Color(0xff2A2A2A) : const Color(0xffF3F4F6),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.grey.withOpacity(0.3)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: isDark
+                ? Colors.black.withOpacity(0.3)
+                : Colors.black.withOpacity(0.05),
             offset: const Offset(0, 4),
             blurRadius: 10,
           ),
         ],
       ),
-      child: const Center(
+      child: Center(
         child: TextField(
           textAlign: TextAlign.center,
           keyboardType: TextInputType.number,
           maxLength: 1,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          decoration: InputDecoration(
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+          ),
+          decoration: const InputDecoration(
             border: InputBorder.none,
             counterText: '',
+            fillColor: Colors.transparent,
+            filled: false,
+            contentPadding: EdgeInsets.zero,
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
           ),
         ),
       ),

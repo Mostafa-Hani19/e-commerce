@@ -4,6 +4,7 @@ import 'package:ecommerce/core/network/api_client.dart';
 import 'package:ecommerce/models/cart.dart';
 import 'package:ecommerce/models/login_response.dart';
 import 'package:ecommerce/models/product.dart';
+import 'package:ecommerce/models/user.dart';
 
 class ApiService {
   final ApiClient _apiClient = ApiClient();
@@ -123,6 +124,12 @@ class ApiService {
     } catch (e) {
       return [];
     }
+  }
+
+  // Get user details
+  Future<User> getUser(int id) async {
+    final response = await _apiClient.get('${ApiConstants.userById}$id');
+    return User.fromJson(response.data);
   }
 
   // Allow Generic Get

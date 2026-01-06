@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ecommerce/core/widgets/shimmer_loading.dart';
 import 'package:ecommerce/core/providers/cart_provider.dart';
 import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -17,13 +18,17 @@ class CartItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppTheme.whiteColor,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.greyColor.withOpacity(0.3)),
+        border: Border.all(
+          color: isDark ? Colors.white12 : AppTheme.greyColor.withOpacity(0.3),
+        ),
       ),
       child: Row(
         children: [
@@ -33,9 +38,17 @@ class CartItemCard extends StatelessWidget {
             height: 80,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(item.product.image),
+              // Removed invalid image property in favor of child
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: CachedNetworkImage(
+                imageUrl: item.product.image,
                 fit: BoxFit.cover,
+                placeholder: (context, url) =>
+                    const ShimmerLoading.rectangular(height: double.infinity),
+                errorWidget: (context, url, error) =>
+                    const Icon(Icons.error_outline, color: Colors.grey),
               ),
             ),
           ),
@@ -60,7 +73,9 @@ class CartItemCard extends StatelessWidget {
                     '${item.selectedColor ?? ''} ${item.selectedSize ?? ''}',
                     style: TextStyle(
                       fontSize: 12,
-                      color: AppTheme.greyColor.withOpacity(0.8),
+                      color: isDark
+                          ? Colors.grey[400]
+                          : AppTheme.greyColor.withOpacity(0.8),
                     ),
                   ),
                 const SizedBox(height: 8),
@@ -79,14 +94,20 @@ class CartItemCard extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: AppTheme.greyColor.withOpacity(0.3),
+                          color: isDark
+                              ? Colors.white12
+                              : AppTheme.greyColor.withOpacity(0.3),
                         ),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.remove, size: 18),
+                            icon: Icon(
+                              Icons.remove,
+                              size: 18,
+                              color: Theme.of(context).iconTheme.color,
+                            ),
                             onPressed: () {
                               cartNotifier.updateQuantity(
                                 index,
@@ -100,14 +121,21 @@ class CartItemCard extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Text(
                               '${item.quantity}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
+                                color: Theme.of(
+                                  context,
+                                ).textTheme.bodyLarge?.color,
                               ),
                             ),
                           ),
                           IconButton(
-                            icon: const Icon(Icons.add, size: 18),
+                            icon: Icon(
+                              Icons.add,
+                              size: 18,
+                              color: Theme.of(context).iconTheme.color,
+                            ),
                             onPressed: () {
                               cartNotifier.updateQuantity(
                                 index,

@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen>
     final double logoWidth = size.width * 0.4; // 40% of screen width
 
     return Scaffold(
-      // backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       body: Center(
         child: FadeTransition(
           opacity: _opacity,

@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ecommerce/core/widgets/shimmer_loading.dart';
 import 'package:ecommerce/core/providers/wishlist_provider.dart';
 import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:ecommerce/models/product.dart';
@@ -37,9 +39,15 @@ class _ProductImageCarouselState extends ConsumerState<ProductImageCarousel> {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Center(
-                  child: Image.network(
-                    widget.product.image,
+                  child: CachedNetworkImage(
+                    imageUrl: widget.product.image,
                     fit: BoxFit.contain,
+                    placeholder: (context, url) =>
+                        const ShimmerLoading.rectangular(
+                          height: double.infinity,
+                        ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error_outline, color: Colors.grey),
                   ),
                 ),
               );

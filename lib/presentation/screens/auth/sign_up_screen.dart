@@ -1,3 +1,4 @@
+import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:ecommerce/presentation/screens/auth/login_screen.dart';
 import 'package:ecommerce/core/constants/app_strings.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,8 +16,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const Color orangeColor = Color(0xffFA6E21);
-
     return Scaffold(
       // backgroundColor: Colors.white,
       body: SafeArea(
@@ -38,13 +37,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Text(
+                      Text(
                         AppStrings.signUp,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: Theme.of(context).textTheme.titleLarge?.color,
                         ),
                       ),
                       const SizedBox(height: 40),
@@ -73,7 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         children: [
                           Checkbox(
                             value: _acceptTerms,
-                            activeColor: orangeColor,
+                            activeColor: AppTheme.orangeColor,
                             onChanged: (value) {
                               setState(() {
                                 _acceptTerms = value ?? false;
@@ -96,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           // TODO: Handle Registration
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: orangeColor,
+                          backgroundColor: AppTheme.orangeColor,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -134,10 +133,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             child: const Text(
                               AppStrings.login,
                               style: TextStyle(
-                                color: orangeColor,
+                                color: AppTheme.orangeColor,
                                 fontWeight: FontWeight.bold,
                                 decoration: TextDecoration.underline,
-                                decorationColor: orangeColor,
+                                decorationColor: AppTheme.orangeColor,
                               ),
                             ),
                           ),

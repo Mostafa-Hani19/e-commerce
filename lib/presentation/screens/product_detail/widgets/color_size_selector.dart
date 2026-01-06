@@ -37,6 +37,8 @@ class _ColorSizeSelectorState extends State<ColorSizeSelector> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -45,9 +47,12 @@ class _ColorSizeSelectorState extends State<ColorSizeSelector> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 AppStrings.color,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.titleMedium?.color,
+                ),
               ),
               const SizedBox(height: 12),
               SingleChildScrollView(
@@ -97,9 +102,12 @@ class _ColorSizeSelectorState extends State<ColorSizeSelector> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 AppStrings.size,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.titleMedium?.color,
+                ),
               ),
               const SizedBox(height: 12),
               SingleChildScrollView(
@@ -119,7 +127,7 @@ class _ColorSizeSelectorState extends State<ColorSizeSelector> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: _selectedSizeIndex == index
-                              ? Colors.grey[200]
+                              ? (isDark ? Colors.white24 : Colors.grey[200])
                               : Colors.transparent,
                         ),
                         child: Center(
@@ -128,8 +136,12 @@ class _ColorSizeSelectorState extends State<ColorSizeSelector> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: _selectedSizeIndex == index
-                                  ? AppTheme.blackColor
-                                  : Colors.grey[400],
+                                  ? (isDark
+                                        ? AppTheme.whiteColor
+                                        : AppTheme.blackColor)
+                                  : (isDark
+                                        ? Colors.grey[400]
+                                        : Colors.grey[400]),
                             ),
                           ),
                         ),

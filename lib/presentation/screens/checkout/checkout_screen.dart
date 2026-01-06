@@ -19,21 +19,24 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.whiteColor,
+      // backgroundColor: AppTheme.whiteColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           AppStrings.checkout,
           style: TextStyle(
-            color: AppTheme.blackColor,
+            color: Theme.of(context).appBarTheme.titleTextStyle?.color,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
         ),
         centerTitle: true,
-        backgroundColor: AppTheme.whiteColor,
+        // backgroundColor: AppTheme.whiteColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: AppTheme.blackColor),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Theme.of(context).iconTheme.color,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -46,13 +49,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Shipping Address Section
-                  _buildSectionTitle(AppStrings.shippingAddress),
+                  _buildSectionTitle(context, AppStrings.shippingAddress),
                   const SizedBox(height: 12),
                   const AddressCard(),
                   const SizedBox(height: 24),
 
                   // Payment Method Section
-                  _buildSectionTitle(AppStrings.paymentMethod),
+                  _buildSectionTitle(context, AppStrings.paymentMethod),
                   const SizedBox(height: 12),
                   PaymentMethodSelector(
                     selectedMethod: _selectedPaymentMethod,
@@ -62,7 +65,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   const SizedBox(height: 24),
 
                   // Order Summary Section
-                  _buildSectionTitle(AppStrings.orderSummary),
+                  _buildSectionTitle(context, AppStrings.orderSummary),
                   const SizedBox(height: 12),
                   const OrderSummaryCard(),
                 ],
@@ -77,13 +80,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(BuildContext context, String title) {
     return Text(
       title,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.bold,
-        color: AppTheme.blackColor,
+        color: Theme.of(context).textTheme.titleLarge?.color,
       ),
     );
   }
@@ -92,6 +95,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: Theme.of(context).cardColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -109,12 +113,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            const Text(
+            Text(
               AppStrings.orderPlaced,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: AppTheme.blackColor,
+                color: Theme.of(context).textTheme.titleLarge?.color,
               ),
             ),
             const SizedBox(height: 12),
@@ -123,7 +127,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: AppTheme.greyColor.withOpacity(0.8),
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.grey[400]
+                    : AppTheme.greyColor.withOpacity(0.8),
               ),
             ),
             const SizedBox(height: 24),
