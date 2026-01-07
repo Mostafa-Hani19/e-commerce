@@ -3,14 +3,14 @@ import 'package:ecommerce/core/providers/cart_provider.dart';
 import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:ecommerce/presentation/screens/checkout/checkout_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CartCheckoutBar extends StatelessWidget {
-  final CartNotifier cartNotifier;
-
-  const CartCheckoutBar({super.key, required this.cartNotifier});
+class CartCheckoutBar extends ConsumerWidget {
+  const CartCheckoutBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final total = ref.watch(cartTotalProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
@@ -39,7 +39,7 @@ class CartCheckoutBar extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  '\$${cartNotifier.total.toStringAsFixed(2)}',
+                  '\$${total.toStringAsFixed(2)}',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

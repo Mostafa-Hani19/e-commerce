@@ -1,19 +1,21 @@
 import 'package:ecommerce/core/constants/app_strings.dart';
+import 'package:ecommerce/core/providers/cart_provider.dart';
 import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:ecommerce/presentation/screens/checkout/widgets/address_card.dart';
 import 'package:ecommerce/presentation/screens/checkout/widgets/checkout_bottom_bar.dart';
 import 'package:ecommerce/presentation/screens/checkout/widgets/order_summary_card.dart';
 import 'package:ecommerce/presentation/screens/checkout/widgets/payment_method_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CheckoutScreen extends StatefulWidget {
+class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({super.key});
 
   @override
-  State<CheckoutScreen> createState() => _CheckoutScreenState();
+  ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
 }
 
-class _CheckoutScreenState extends State<CheckoutScreen> {
+class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   int _selectedPaymentMethod = 0;
 
   @override
@@ -92,6 +94,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   void _showOrderSuccessDialog() {
+    // Clear cart
+    ref.read(cartProvider.notifier).clearCart();
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(

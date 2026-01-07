@@ -3,6 +3,7 @@ import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ecommerce/core/providers/theme_provider.dart';
+import 'package:ecommerce/core/providers/user_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProfileHeader extends ConsumerWidget {
@@ -51,34 +52,43 @@ class ProfileHeader extends ConsumerWidget {
         ),
         const SizedBox(width: 20),
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Mostafa Hani',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 4),
-              Row(
-                children: [
-                  Icon(
-                    Icons.email_outlined,
-                    size: 16,
-                    color: AppTheme.greyColor.withOpacity(0.8),
-                  ),
-                  const SizedBox(width: 6),
-                  Text(
-                    'Mostafa@gmail.com',
-                    style: TextStyle(
-                      color: AppTheme.greyColor.withOpacity(0.8),
-                      fontSize: 14,
+          child: Consumer(
+            builder: (context, ref, child) {
+              final userAsync = ref.watch(userProvider);
+              return userAsync.when(
+                data: (user) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${user.name.firstname} ${user.name.lastname}',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.email_outlined,
+                          size: 16,
+                          color: AppTheme.greyColor.withOpacity(0.8),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          user.email,
+                          style: TextStyle(
+                            color: AppTheme.greyColor.withOpacity(0.8),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                loading: () => const Text('Loading...'),
+                error: (err, stack) => Text('Error: $err'),
+              );
+            },
           ),
         ),
         // Theme Toggle Button

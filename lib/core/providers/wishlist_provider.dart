@@ -1,26 +1,50 @@
+import 'dart:convert';
 import 'package:ecommerce/models/product.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-// StateNotifier to manage the list of favorite products
 class WishlistNotifier extends StateNotifier<List<Product>> {
-  WishlistNotifier() : super([]);
+  static const String _wishlistKey = 'wishlist_items';
 
-  void toggleFavorite(Product product) {
-    if (state.any((item) => item.id == product.id)) {
-      // Remove if exists
-      state = state.where((item) => item.id != product.id).toList();
-    } else {
-      // Add if not exists
-      state = [...state, product];
+  WishlistNotifier() : super([]) {
+    _loadWishlist();
+  }
+
+  Future<void> _loadWishlist() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? wishlistStr = prefs.getString(_wishlistKey);
+    if (wishlistStr != null && wishlistStr.isNotEmpty) {
+      try {
+        final List<dynamic> decodedList = jsonDecode(wishlistStr);
+        state = decodedList.map((item) => Product.fromJson(item)).toList();
+      } catch (e) {
+        // ignore error
+      }
     }
   }
 
-  bool isFavorite(int productId) {
-    return state.any((item) => item.id == productId);
+  Future<void> _saveWishlist() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String encodedList = jsonEncode(
+      state.map((item) => item.toJson()).toList(),
+    );
+    await prefs.setString(_wishlistKey, encodedList);
+  }
+
+  void toggleWishlist(Product product) {
+    if (state.where((p) => p.id == product.id).isNotEmpty) {
+      state = state.where((p) => p.id != product.id).toList();
+    } else {
+      state = [...state, product];
+    }
+    _saveWishlist();
+  }
+
+  bool isInWishlist(Product product) {
+    return state.any((p) => p.id == product.id);
   }
 }
 
-// Global provider for accessing the wishlist
 final wishlistProvider = StateNotifierProvider<WishlistNotifier, List<Product>>(
   (ref) {
     return WishlistNotifier();

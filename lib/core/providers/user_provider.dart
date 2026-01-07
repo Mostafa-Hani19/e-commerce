@@ -17,28 +17,21 @@ class UserNotifier extends StateNotifier<AsyncValue<User>> {
 
   Future<void> fetchUser({int id = 1}) async {
     try {
-      state = const AsyncValue.loading();
+      // Only set loading if not already data to prevent UI flicker on refresh
+      if (state.value == null) state = const AsyncValue.loading();
       final user = await _apiService.getUser(id);
-      state = AsyncValue.data(user);
+      if (mounted) state = AsyncValue.data(user);
     } catch (e, stack) {
-      state = AsyncValue.error(e, stack);
+      if (mounted) state = AsyncValue.error(e, stack);
     }
   }
 
   void updateAddress(Address newAddress) {
+    // Optimistic update
     state.whenData((user) {
-      // Simulate API update by updating local state
-      // In a real app, we would call _apiService.updateAddress(...)
-      state = AsyncValue.data(
-        User(
-          id: user.id,
-          email: user.email,
-          username: user.username,
-          name: user.name,
-          address: newAddress,
-          phone: user.phone,
-        ),
-      );
+      state = AsyncValue.data(user.copyWith(address: newAddress));
+      // In a real app, you'd trigger the API call here:
+      // await _apiService.updateAddress(user.id, newAddress);
     });
   }
 }

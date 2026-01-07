@@ -1,3 +1,4 @@
+import 'package:ecommerce/core/constants/app_strings.dart';
 import 'package:ecommerce/core/providers/user_provider.dart';
 import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:ecommerce/models/user.dart';
@@ -66,7 +67,9 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
     final isEditing = widget.initialAddress != null;
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEditing ? 'Edit Address' : 'Add New Address'),
+        title: Text(
+          isEditing ? AppStrings.editAddress : AppStrings.addNewAddress,
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -77,14 +80,16 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
             children: [
               _buildTextField(
                 controller: _cityController,
-                label: 'City',
-                validator: (v) => v?.isNotEmpty == true ? null : 'Required',
+                label: AppStrings.city,
+                validator: (v) =>
+                    v?.isNotEmpty == true ? null : AppStrings.requiredField,
               ),
               const SizedBox(height: 16),
               _buildTextField(
                 controller: _streetController,
-                label: 'Street',
-                validator: (v) => v?.isNotEmpty == true ? null : 'Required',
+                label: AppStrings.street,
+                validator: (v) =>
+                    v?.isNotEmpty == true ? null : AppStrings.requiredField,
               ),
               const SizedBox(height: 16),
               Row(
@@ -92,20 +97,22 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
                   Expanded(
                     child: _buildTextField(
                       controller: _numberController,
-                      label: 'Number',
+                      label: AppStrings.number,
                       keyboardType: TextInputType.number,
-                      validator: (v) =>
-                          v?.isNotEmpty == true ? null : 'Required',
+                      validator: (v) => v?.isNotEmpty == true
+                          ? null
+                          : AppStrings.requiredField,
                     ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: _buildTextField(
                       controller: _zipcodeController,
-                      label: 'Zipcode',
+                      label: AppStrings.zipcode,
                       keyboardType: TextInputType.number,
-                      validator: (v) =>
-                          v?.isNotEmpty == true ? null : 'Required',
+                      validator: (v) => v?.isNotEmpty == true
+                          ? null
+                          : AppStrings.requiredField,
                     ),
                   ),
                 ],
@@ -123,7 +130,9 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
                     ),
                   ),
                   child: Text(
-                    isEditing ? 'Update Address' : 'Save Address',
+                    isEditing
+                        ? AppStrings.updateAddress
+                        : AppStrings.saveAddress,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,

@@ -1,4 +1,5 @@
 import 'package:ecommerce/core/constants/app_strings.dart';
+import 'package:ecommerce/core/providers/wishlist_provider.dart';
 
 import 'package:ecommerce/models/product.dart';
 import 'package:ecommerce/presentation/screens/product_detail/widgets/add_to_cart_bar.dart';
@@ -28,7 +29,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
       appBar: AppBar(
         title: const Text(AppStrings.detailProduct),
         centerTitle: true,
-        // backgroundColor: AppTheme.whiteColor,
         elevation: 0,
         leading: IconButton(
           icon: Icon(
@@ -38,6 +38,29 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
           ),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          Consumer(
+            builder: (context, ref, child) {
+              final wishlist = ref.watch(wishlistProvider);
+              final isInWishlist = wishlist.any(
+                (item) => item.id == widget.product.id,
+              );
+              return IconButton(
+                icon: Icon(
+                  isInWishlist ? Icons.favorite : Icons.favorite_border,
+                  color: isInWishlist
+                      ? Colors.red
+                      : Theme.of(context).iconTheme.color,
+                ),
+                onPressed: () {
+                  ref
+                      .read(wishlistProvider.notifier)
+                      .toggleWishlist(widget.product);
+                },
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [

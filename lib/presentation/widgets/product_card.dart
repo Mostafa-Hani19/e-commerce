@@ -4,6 +4,7 @@ import 'package:ecommerce/core/providers/wishlist_provider.dart';
 import 'package:ecommerce/models/product.dart';
 import 'package:ecommerce/presentation/screens/product_detail/product_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductCard extends ConsumerWidget {
@@ -102,7 +103,7 @@ class ProductCard extends ConsumerWidget {
                       onTap: () {
                         ref
                             .read(wishlistProvider.notifier)
-                            .toggleFavorite(product);
+                            .toggleWishlist(product);
                       },
                       child: Container(
                         padding: const EdgeInsets.all(8),
@@ -224,7 +225,7 @@ class ProductCard extends ConsumerWidget {
             ),
           ],
         ),
-      ),
+      ).animate().fadeIn(duration: 300.ms).scale(duration: 300.ms),
     );
   }
 }

@@ -60,7 +60,7 @@ class CartScreen extends ConsumerWidget {
                     },
                   ),
                 ),
-                CartCheckoutBar(cartNotifier: cartNotifier),
+                CartCheckoutBar(),
               ],
             ),
     );

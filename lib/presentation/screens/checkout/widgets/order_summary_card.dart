@@ -9,50 +9,64 @@ class OrderSummaryCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cart = ref.watch(cartProvider.notifier);
-
-    // We watch the list to rebuild, but access calculations from notifier
-    ref.watch(cartProvider);
+    // Using granular providers to rebuild only when these specific values change
+    final subtotal = ref.watch(cartSubtotalProvider);
+    final shipping = ref.watch(cartShippingProvider);
+    final tax = ref.watch(cartTaxProvider);
+    final total = ref.watch(cartTotalProvider);
+    // final isDark = Theme.of(context).brightness == Brightness.dark; // Not used currently
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: isDark ? Colors.white10 : AppTheme.greyColor.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(12),
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.withOpacity(0.1)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            AppStrings.orderSummary,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+            ),
+          ),
+          const SizedBox(height: 20),
           _buildSummaryRow(
             context,
             AppStrings.subtotal,
-            '\$${cart.subtotal.toStringAsFixed(2)}',
+            '\$${subtotal.toStringAsFixed(2)}',
           ),
           const SizedBox(height: 12),
           _buildSummaryRow(
             context,
             AppStrings.shipping,
-            '\$${cart.shipping.toStringAsFixed(2)}',
+            '\$${shipping.toStringAsFixed(2)}',
           ),
           const SizedBox(height: 12),
           _buildSummaryRow(
             context,
             AppStrings.tax,
-            '\$${cart.tax.toStringAsFixed(2)}',
+            '\$${tax.toStringAsFixed(2)}',
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Divider(
-              height: 1,
-              color: isDark
-                  ? Colors.white24
-                  : AppTheme.greyColor.withOpacity(0.5),
-            ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Divider(),
           ),
           _buildSummaryRow(
             context,
             AppStrings.total,
-            '\$${cart.total.toStringAsFixed(2)}',
+            '\$${total.toStringAsFixed(2)}',
             isTotal: true,
           ),
         ],

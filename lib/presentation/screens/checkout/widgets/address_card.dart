@@ -1,4 +1,5 @@
 import 'package:ecommerce/presentation/screens/address/add_address_screen.dart';
+import 'package:ecommerce/core/constants/app_strings.dart';
 import 'package:ecommerce/core/providers/user_provider.dart';
 import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -167,7 +168,8 @@ class AddressCard extends ConsumerWidget {
           child: CircularProgressIndicator(color: AppTheme.orangeColor),
         ),
       ),
-      error: (err, stack) => Center(child: Text('Error loading address')),
+      error: (err, stack) =>
+          const Center(child: Text(AppStrings.errorLoadingAddress)),
     );
   }
 }

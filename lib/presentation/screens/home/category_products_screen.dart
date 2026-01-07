@@ -1,55 +1,19 @@
-import 'package:ecommerce/core/network/api_service.dart';
-import 'package:ecommerce/models/product.dart';
+import 'package:ecommerce/core/constants/app_strings.dart';
+import 'package:ecommerce/core/providers/product_provider.dart';
+
 import 'package:ecommerce/presentation/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CategoryProductsScreen extends ConsumerStatefulWidget {
+class CategoryProductsScreen extends ConsumerWidget {
   final String categoryName;
 
   const CategoryProductsScreen({super.key, required this.categoryName});
 
   @override
-  ConsumerState<CategoryProductsScreen> createState() =>
-      _CategoryProductsScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productsAsync = ref.watch(productsByCategoryProvider(categoryName));
 
-class _CategoryProductsScreenState
-    extends ConsumerState<CategoryProductsScreen> {
-  final ApiService _apiService = ApiService();
-  List<Product> _products = [];
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadProducts();
-  }
-
-  Future<void> _loadProducts() async {
-    setState(() => _isLoading = true);
-    try {
-      final products = await _apiService.getProductsByCategory(
-        widget.categoryName,
-      );
-      if (mounted) {
-        setState(() {
-          _products = products;
-          _isLoading = false;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() => _isLoading = false);
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error loading products: $e')));
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -63,7 +27,7 @@ class _CategoryProductsScreenState
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          widget.categoryName.toUpperCase(),
+          categoryName.toUpperCase(),
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Theme.of(context).textTheme.titleLarge?.color,
@@ -73,10 +37,10 @@ class _CategoryProductsScreenState
         ),
         centerTitle: true,
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _products.isEmpty
-          ? Center(
+      body: productsAsync.when(
+        data: (products) {
+          if (products.isEmpty) {
+            return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -87,7 +51,7 @@ class _CategoryProductsScreenState
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'No products found',
+                    AppStrings.noProductsFound,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.grey[600],
@@ -96,20 +60,26 @@ class _CategoryProductsScreenState
                   ),
                 ],
               ),
-            )
-          : GridView.builder(
-              padding: const EdgeInsets.all(16),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.62,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-              ),
-              itemCount: _products.length,
-              itemBuilder: (context, index) {
-                return ProductCard(product: _products[index]);
-              },
+            );
+          }
+          return GridView.builder(
+            padding: const EdgeInsets.all(16),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.62,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
             ),
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              return ProductCard(product: products[index]);
+            },
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) =>
+            Center(child: Text('${AppStrings.errorLoadingData}$error')),
+      ),
     );
   }
 }

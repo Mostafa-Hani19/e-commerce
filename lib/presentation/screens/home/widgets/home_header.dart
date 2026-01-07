@@ -9,8 +9,8 @@ class HomeHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cart = ref.watch(cartProvider);
-    final cartItemCount = cart.fold<int>(0, (sum, item) => sum + item.quantity);
+    // Optimization: Watch only the integer count
+    final cartItemCount = ref.watch(cartCountProvider);
 
     return Padding(
       padding: const EdgeInsets.all(16),

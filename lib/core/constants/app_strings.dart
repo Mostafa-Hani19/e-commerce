@@ -125,4 +125,24 @@ class AppStrings {
   static const orderPlaced = 'Order Placed!';
   static const orderPlacedSuccess = 'Your order has been placed successfully';
   static const proceedToCheckout = 'Proceed to Checkout';
+
+  // Address
+  static const editAddress = 'Edit Address';
+  static const addNewAddress = 'Add New Address';
+  static const city = 'City';
+  static const street = 'Street';
+  static const number = 'Number';
+  static const zipcode = 'Zipcode';
+  static const updateAddress = 'Update Address';
+  static const saveAddress = 'Save Address';
+  static const requiredField = 'Required';
+
+  // Profile
+  static const pointsLabel = 'Points';
+  static const reviews = 'Reviews';
+
+  // General
+  static const errorLoadingData = 'Error loading data: ';
+  static const errorLoadingAddress = 'Error loading address';
+  static const noProductsFound = 'No products found';
 }

@@ -27,6 +27,23 @@ class User {
       phone: json['phone'],
     );
   }
+  User copyWith({
+    int? id,
+    String? email,
+    String? username,
+    Name? name,
+    Address? address,
+    String? phone,
+  }) {
+    return User(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      username: username ?? this.username,
+      name: name ?? this.name,
+      address: address ?? this.address,
+      phone: phone ?? this.phone,
+    );
+  }
 }
 
 class Name {
@@ -43,6 +60,13 @@ class Name {
       .split(' ')
       .map((str) => str[0].toUpperCase() + str.substring(1))
       .join(' ');
+
+  Name copyWith({String? firstname, String? lastname}) {
+    return Name(
+      firstname: firstname ?? this.firstname,
+      lastname: lastname ?? this.lastname,
+    );
+  }
 }
 
 class Address {
@@ -76,6 +100,22 @@ class Address {
         (str) => str.isNotEmpty ? str[0].toUpperCase() + str.substring(1) : '',
       )
       .join(' ');
+
+  Address copyWith({
+    String? city,
+    String? street,
+    int? number,
+    String? zipcode,
+    Geolocation? geolocation,
+  }) {
+    return Address(
+      city: city ?? this.city,
+      street: street ?? this.street,
+      number: number ?? this.number,
+      zipcode: zipcode ?? this.zipcode,
+      geolocation: geolocation ?? this.geolocation,
+    );
+  }
 }
 
 class Geolocation {
@@ -86,5 +126,9 @@ class Geolocation {
 
   factory Geolocation.fromJson(Map<String, dynamic> json) {
     return Geolocation(lat: json['lat'], long: json['long']);
+  }
+
+  Geolocation copyWith({String? lat, String? long}) {
+    return Geolocation(lat: lat ?? this.lat, long: long ?? this.long);
   }
 }

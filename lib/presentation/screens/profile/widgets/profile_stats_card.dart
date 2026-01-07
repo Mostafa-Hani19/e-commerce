@@ -1,4 +1,5 @@
 import 'package:ecommerce/core/theme/app_theme.dart';
+import 'package:ecommerce/core/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 
 class ProfileStatsCard extends StatelessWidget {
@@ -27,11 +28,11 @@ class ProfileStatsCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildStatItem('240', 'Points', Icons.star),
+          _buildStatItem('240', AppStrings.pointsLabel, Icons.star),
           _buildDivider(),
-          _buildStatItem('12', 'Gift Cards', Icons.card_giftcard),
+          _buildStatItem('12', AppStrings.giftCards, Icons.card_giftcard),
           _buildDivider(),
-          _buildStatItem('5', 'Reviews', Icons.rate_review),
+          _buildStatItem('5', AppStrings.reviews, Icons.rate_review),
         ],
       ),
     );

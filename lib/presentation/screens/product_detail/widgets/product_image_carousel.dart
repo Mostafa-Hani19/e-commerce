@@ -61,7 +61,7 @@ class _ProductImageCarouselState extends ConsumerState<ProductImageCarousel> {
               onTap: () {
                 ref
                     .read(wishlistProvider.notifier)
-                    .toggleFavorite(widget.product);
+                    .toggleWishlist(widget.product);
               },
               child: CircleAvatar(
                 backgroundColor: AppTheme.whiteColor,

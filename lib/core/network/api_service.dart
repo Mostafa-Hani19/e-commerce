@@ -9,15 +9,18 @@ import 'package:ecommerce/models/user.dart';
 class ApiService {
   final ApiClient _apiClient = ApiClient();
 
-  // Get all products
-  Future<List<Product>> getProducts() async {
+  // Get all products (with optional limit for pagination simulation if supported)
+  Future<List<Product>> getProducts({int? limit}) async {
     try {
-      final response = await _apiClient.get(ApiConstants.products);
+      final endpoint = limit != null
+          ? '${ApiConstants.products}?limit=$limit'
+          : ApiConstants.products;
+      final response = await _apiClient.get(endpoint);
       return (response.data as List)
           .map((json) => Product.fromJson(json))
           .toList();
     } catch (e) {
-      rethrow; // Let UI handle ApiExceptions
+      rethrow;
     }
   }
 

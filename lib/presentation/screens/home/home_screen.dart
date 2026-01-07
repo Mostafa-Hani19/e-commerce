@@ -1,4 +1,7 @@
-import 'package:ecommerce/core/network/api_service.dart';
+import 'package:ecommerce/core/constants/app_strings.dart';
+import 'package:ecommerce/core/widgets/shimmer_loading.dart';
+import 'package:ecommerce/core/providers/category_provider.dart';
+import 'package:ecommerce/core/providers/paginated_products_provider.dart';
 
 import 'package:ecommerce/models/product.dart';
 import 'package:ecommerce/presentation/screens/home/widgets/categories_section.dart';
@@ -20,61 +23,20 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  final ApiService _apiService = ApiService();
-  List<Product> _products = [];
-  List<String> _categories = [];
-  bool _isLoading = true;
   int _selectedIndex = 0;
-  Map<String, String> _categoryImages = {};
-
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
-
-  Future<void> _loadData() async {
-    setState(() => _isLoading = true);
-    try {
-      final futures = await Future.wait([
-        _apiService.getProducts(),
-        _apiService.getCategories(),
-      ]);
-
-      if (mounted) {
-        final products = futures[0] as List<Product>;
-        final categories = futures[1] as List<String>;
-
-        // Extract images for each category from products
-        final categoryImages = <String, String>{};
-        for (var product in products) {
-          if (!categoryImages.containsKey(product.category)) {
-            categoryImages[product.category] = product.image;
-          }
-        }
-
-        setState(() {
-          _products = products;
-          _categories = categories;
-          _categoryImages = categoryImages;
-          _isLoading = false;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() => _isLoading = false);
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error loading data: $e')));
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: AppTheme.whiteColor,
-      body: _getBody(),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: const [
+          _HomeContent(), 
+          WishlistScreen(),
+          SearchScreen(),
+          ProfileScreen(),
+        ],
+      ),
       extendBody: true,
       bottomNavigationBar: HomeBottomNavBar(
         selectedIndex: _selectedIndex,
@@ -82,47 +44,131 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
     );
   }
+}
 
-  Widget _getBody() {
-    switch (_selectedIndex) {
-      case 1:
-        return const WishlistScreen();
-      case 2:
-        return const SearchScreen();
-      case 3:
-        return const ProfileScreen();
-      default:
-        return _buildHomeContent();
+class _HomeContent extends ConsumerStatefulWidget {
+  const _HomeContent();
+
+  @override
+  ConsumerState<_HomeContent> createState() => _HomeContentState();
+}
+
+class _HomeContentState extends ConsumerState<_HomeContent> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      ref.read(paginatedProductsProvider.notifier).loadMore();
     }
   }
 
-  Widget _buildHomeContent() {
+  @override
+  Widget build(BuildContext context) {
+    final paginationState = ref.watch(paginatedProductsProvider);
+    final categoriesAsync = ref.watch(categoriesProvider);
+
     return SafeArea(
       child: Column(
         children: [
           const HomeHeader(),
           Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 20),
-                        const PromoBanner(),
-                        const SizedBox(height: 30),
-                        CategoriesSection(
-                          categories: _categories,
-                          categoryImages: _categoryImages,
-                        ),
-                        const SizedBox(height: 30),
-                        ProductsSection(products: _products),
-                      ],
-                    ),
-                  ),
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+                  const PromoBanner(),
+                  const SizedBox(height: 30),
+                  _buildContent(paginationState, categoriesAsync),
+                ],
+              ),
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildContent(
+    PaginationState<Product> paginationState,
+    AsyncValue<List<String>> categoriesAsync,
+  ) {
+    // Initial loading state 
+    if (paginationState.items.isEmpty && paginationState.isLoading) {
+      return const SingleChildScrollView(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            ShimmerLoading.rectangular(height: 160, width: double.infinity),
+            SizedBox(height: 30),
+          ],
+        ),
+      );
+    }
+
+    // Category loading
+    if (categoriesAsync.isLoading) {
+
+    }
+
+    if (paginationState.error != null && paginationState.items.isEmpty) {
+      return Center(
+        child: Text('${AppStrings.errorLoadingData}${paginationState.error}'),
+      );
+    }
+
+    final products = paginationState.items;
+    final categories = categoriesAsync.value ?? [];
+
+    // Extract images
+    final categoryImages = <String, String>{};
+    for (var product in products) {
+      if (!categoryImages.containsKey(product.category)) {
+        categoryImages[product.category] = product.image;
+      }
+    }
+
+    return Column(
+      children: [
+        if (categories.isNotEmpty)
+          CategoriesSection(
+            categories: categories,
+            categoryImages: categoryImages,
+          ),
+        const SizedBox(height: 30),
+        ProductsSection(products: products),
+        if (paginationState.isLoading && products.isNotEmpty)
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Center(child: CircularProgressIndicator()),
+          ),
+        if (!paginationState.hasMore && products.isNotEmpty)
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Center(
+              child: Text(
+                'No more products',
+                style: TextStyle(color: Colors.grey),
+              ),
+            ),
+          ),
+        const SizedBox(height: 20),
+      ],
     );
   }
 }

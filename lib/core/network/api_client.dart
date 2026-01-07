@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:ecommerce/core/network/dio_interceptor.dart';
 import '../constants/api_constants.dart';
 import 'api_exceptions.dart';
 
@@ -25,6 +26,8 @@ class ApiClient {
         error: true,
       ),
     );
+    // Add Global Error Interceptor
+    _dio.interceptors.add(AppDioInterceptor());
   }
 
   // GET Request

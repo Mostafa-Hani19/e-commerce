@@ -1,4 +1,5 @@
 import 'package:ecommerce/core/providers/theme_provider.dart';
+import 'package:ecommerce/core/constants/global_keys.dart';
 import 'package:ecommerce/core/routes/app_routes.dart';
 import 'package:ecommerce/core/routes/route_generator.dart';
 import 'package:ecommerce/core/theme/app_theme.dart';
@@ -18,6 +19,8 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      scaffoldMessengerKey: GlobalKeys.scaffoldMessengerKey,
+      navigatorKey: GlobalKeys.navigatorKey,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
