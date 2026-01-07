@@ -3,7 +3,7 @@ import 'package:ecommerce/presentation/screens/auth/login_screen.dart';
 import 'package:ecommerce/presentation/screens/onboarding/item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:animate_do/animate_do.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:ecommerce/core/constants/app_strings.dart';
 
@@ -124,10 +124,10 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
           left: 0,
           right: 0,
           child: Center(
-            child: FadeInUp(
-              duration: const Duration(milliseconds: 600),
-              child: _buildTitleOverlay(item.title),
-            ),
+            child: _buildTitleOverlay(item.title)
+                .animate()
+                .fadeIn(duration: 600.ms)
+                .moveY(begin: 30, end: 0, duration: 600.ms),
           ),
         ),
       ],
