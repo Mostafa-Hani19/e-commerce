@@ -102,6 +102,13 @@
 
 ---
 
+
+## 🤔 Why Riverpod?
+- Predictable state management
+- Excellent performance with minimal rebuilds
+- Test-friendly architecture
+
+---
 ## 🧠 Technical Highlights (Why This Project Matters)
 
 ✔ Production-ready architecture  
@@ -110,11 +117,10 @@
 ✔ Clear separation of concerns  
 ✔ Ready for real backend integration  
 
-This project demonstrates **senior-level Flutter development practices**.
 
 ---
 
-## � Project Structure
+## 🗂️ Project Structure
 
 A Clean Architecture influenced structure for scalability:
 
@@ -139,7 +145,7 @@ lib/
 
 ---
 
-## �🛠️ Tech Stack
+## 🛠️ Tech Stack
 
 | Category | Technology |
 |----------|------------|
