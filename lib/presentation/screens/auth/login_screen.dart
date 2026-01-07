@@ -6,8 +6,27 @@ import 'package:ecommerce/core/constants/app_images.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController(
+    text: 'demo@example.com',
+  );
+  final TextEditingController _passwordController = TextEditingController(
+    text: 'password123',
+  );
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +68,7 @@ class LoginScreen extends StatelessWidget {
 
                       // Email Field
                       TextField(
+                        controller: _emailController,
                         decoration: const InputDecoration(
                           hintText: AppStrings.email,
                         ),
@@ -57,6 +77,7 @@ class LoginScreen extends StatelessWidget {
 
                       // Password Field
                       TextField(
+                        controller: _passwordController,
                         obscureText: true,
                         decoration: const InputDecoration(
                           hintText: AppStrings.password,
