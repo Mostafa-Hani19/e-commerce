@@ -58,14 +58,41 @@ class _SplashScreenState extends State<SplashScreen>
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: FadeTransition(
-          opacity: _opacity,
-          child: SizedBox(
-            width: logoWidth > 300 ? 300 : logoWidth, // Max cap 300
-            child: Image.asset(AppImages.logo, fit: BoxFit.contain),
+      body: Stack(
+        children: [
+          Center(
+            child: FadeTransition(
+              opacity: _opacity,
+              child: SizedBox(
+                width: logoWidth > 300 ? 300 : logoWidth,
+                child: Image.asset(AppImages.logo, fit: BoxFit.contain),
+              ),
+            ),
           ),
-        ),
+          Positioned(
+            bottom: 40,
+            left: 0,
+            right: 0,
+            child: Column(
+              children: [
+                Text(
+                  'Developed by',
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                ),
+                const SizedBox(height: 4),
+                const Text(
+                  'Mostafa Hani',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors
+                        .black, // Or dynamic based on theme, but splash bg is hardcoded white
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
