@@ -4,6 +4,8 @@ import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:ecommerce/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ecommerce/core/providers/user_provider.dart';
+import 'package:ecommerce/presentation/screens/auth/login_screen.dart';
 
 class AddToCartBar extends ConsumerWidget {
   final Product product;
@@ -36,6 +38,11 @@ class AddToCartBar extends ConsumerWidget {
           Expanded(
             child: OutlinedButton(
               onPressed: () {
+                final userState = ref.read(userProvider);
+                if (userState.value?.isGuest ?? false) {
+                  _showLoginDialog(context);
+                  return;
+                }
                 ref
                     .read(cartProvider.notifier)
                     .addToCart(
@@ -73,6 +80,11 @@ class AddToCartBar extends ConsumerWidget {
           Expanded(
             child: ElevatedButton(
               onPressed: () {
+                final userState = ref.read(userProvider);
+                if (userState.value?.isGuest ?? false) {
+                  _showLoginDialog(context);
+                  return;
+                }
                 ref
                     .read(cartProvider.notifier)
                     .addToCart(
@@ -106,6 +118,36 @@ class AddToCartBar extends ConsumerWidget {
                   fontSize: 16,
                 ),
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showLoginDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Login Required'),
+        content: const Text('You need to login to perform this action.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (route) => false,
+              );
+            },
+            child: const Text(
+              'Login',
+              style: TextStyle(color: AppTheme.orangeColor),
             ),
           ),
         ],

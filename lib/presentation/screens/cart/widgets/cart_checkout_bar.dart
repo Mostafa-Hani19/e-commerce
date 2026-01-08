@@ -4,6 +4,8 @@ import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:ecommerce/presentation/screens/checkout/checkout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ecommerce/core/providers/user_provider.dart';
+import 'package:ecommerce/presentation/screens/auth/login_screen.dart';
 
 class CartCheckoutBar extends ConsumerWidget {
   const CartCheckoutBar({super.key});
@@ -53,6 +55,12 @@ class CartCheckoutBar extends ConsumerWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
+                  final userState = ref.watch(userProvider);
+                  if (userState.value?.isGuest ?? false) {
+                    _showLoginDialog(context);
+                    return;
+                  }
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -80,6 +88,36 @@ class CartCheckoutBar extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showLoginDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Login Required'),
+        content: const Text('You need to login to proceed to checkout.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (route) => false,
+              );
+            },
+            child: const Text(
+              'Login',
+              style: TextStyle(color: AppTheme.orangeColor),
+            ),
+          ),
+        ],
       ),
     );
   }

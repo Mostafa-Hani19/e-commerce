@@ -5,6 +5,7 @@ class User {
   final Name name;
   final Address? address;
   final String phone;
+  final bool isGuest;
 
   User({
     required this.id,
@@ -13,7 +14,19 @@ class User {
     required this.name,
     this.address,
     required this.phone,
+    this.isGuest = false,
   });
+
+  factory User.guest() {
+    return User(
+      id: -1,
+      email: '',
+      username: 'Guest',
+      name: Name(firstname: 'Guest', lastname: 'User'),
+      phone: '',
+      isGuest: true,
+    );
+  }
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(

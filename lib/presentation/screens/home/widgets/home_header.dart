@@ -3,6 +3,7 @@ import 'package:ecommerce/core/routes/app_routes.dart';
 import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ecommerce/core/providers/user_provider.dart';
 
 class HomeHeader extends ConsumerWidget {
   const HomeHeader({super.key});
@@ -29,17 +30,27 @@ class HomeHeader extends ConsumerWidget {
             ),
           ),
           const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Banha',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ref.watch(userProvider).value?.isGuest == true
+                      ? 'Guest'
+                      : 'Banha',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Text(
-                  'ELvilal,ELkornish',
-                  style: TextStyle(fontSize: 12, color: AppTheme.greyColor),
+                  ref.watch(userProvider).value?.isGuest == true
+                      ? 'Welcome!'
+                      : 'ELvilal,ELkornish',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppTheme.greyColor,
+                  ),
                 ),
               ],
             ),

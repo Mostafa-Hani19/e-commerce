@@ -4,6 +4,7 @@ import 'package:ecommerce/models/product.dart';
 import 'package:ecommerce/presentation/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class ProductsSection extends ConsumerWidget {
   final List<Product> products;
@@ -44,7 +45,10 @@ class ProductsSection extends ConsumerWidget {
             ),
             itemCount: products.length,
             itemBuilder: (context, index) {
-              return ProductCard(product: products[index]);
+              return ProductCard(product: products[index])
+                  .animate()
+                  .fade(duration: 500.ms)
+                  .slideY(begin: 0.1, duration: 500.ms, curve: Curves.easeOut);
             },
           ),
         ),
